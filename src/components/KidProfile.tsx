@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Battery, MapPin, Clock } from 'lucide-react';
+import { Battery, MapPin, Clock, User } from 'lucide-react';
 
 interface Kid {
   id: number;
@@ -49,10 +48,10 @@ const KidProfile: React.FC<KidProfileProps> = ({ kid, isSelected, onSelect }) =>
       <CardContent className="p-4">
         <div className="flex items-center space-x-3 mb-3">
           <div 
-            className="w-12 h-12 rounded-full flex items-center justify-center text-2xl border-2"
-            style={{ backgroundColor: `${kid.color}20`, borderColor: kid.color }}
+            className="w-12 h-12 rounded-full flex items-center justify-center border-2 bg-gray-100"
+            style={{ borderColor: kid.color }}
           >
-            {kid.avatar}
+            <User className="w-6 h-6 text-gray-600" />
           </div>
           <div className="flex-1">
             <h3 className="font-semibold text-gray-800">{kid.name}</h3>
