@@ -123,7 +123,7 @@ const Index = () => {
         {/* Main Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Map View - Mobile: order-1, Desktop: top-left */}
-          <Card className="h-[350px] overflow-hidden shadow-lg border border-gray-300 bg-white order-1">
+          <Card className="h-[450px] overflow-hidden shadow-lg border border-gray-300 bg-white order-1">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center text-lg text-gray-800">
                 <MapPin className="w-5 h-5 mr-2 text-gray-600" />
