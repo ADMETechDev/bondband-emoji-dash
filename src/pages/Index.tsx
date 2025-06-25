@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -119,10 +120,10 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Main Dashboard Grid - Mobile: stacked, Desktop: 2x2 grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Map View - Mobile: order-1, Desktop: top-left spanning 2 cols */}
-          <Card className="h-[500px] overflow-hidden shadow-lg border border-gray-300 bg-white lg:col-span-2 order-1">
+        {/* Main Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Map View - Mobile: order-1, Desktop: top-left */}
+          <Card className="h-[350px] overflow-hidden shadow-lg border border-gray-300 bg-white order-1">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center text-lg text-gray-800">
                 <MapPin className="w-5 h-5 mr-2 text-gray-600" />
@@ -134,39 +135,18 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          {/* Communication Panel - Mobile: order-2&3, Desktop: top-right */}
-          <div className="space-y-4 order-2 lg:order-2">
-            {/* Emoji Communication */}
-            <Card className="shadow-lg border border-gray-300 bg-white">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg text-gray-800">Send Message</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <EmojiPanel selectedKid={selectedKid} kids={kids} />
-              </CardContent>
-            </Card>
+          {/* Message Panel - Mobile: order-2, Desktop: top-right */}
+          <Card className="shadow-lg border border-gray-300 bg-white order-2">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg text-gray-800">Send Message</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <EmojiPanel selectedKid={selectedKid} kids={kids} />
+            </CardContent>
+          </Card>
 
-            {/* Voice Notes */}
-            <Card className="shadow-lg border border-gray-300 bg-white">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center text-gray-800">
-                  <Mic className="w-5 h-5 mr-2 text-gray-600" />
-                  Voice Notes
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <VoiceNote
-                  selectedKid={selectedKid}
-                  kids={kids}
-                  isRecording={isRecording}
-                  setIsRecording={setIsRecording}
-                />
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Fistbump Activity Feed - Mobile: order-4, Desktop: bottom-left spanning 2 cols */}
-          <Card className="shadow-lg border border-gray-300 bg-white order-4 lg:order-3 lg:col-span-2">
+          {/* Fistbump Activity Feed - Mobile: order-4, Desktop: bottom-left */}
+          <Card className="shadow-lg border border-gray-300 bg-white order-4 lg:order-3">
             <CardHeader>
               <CardTitle className="flex items-center text-lg text-gray-800">
                 <Zap className="w-5 h-5 mr-2 text-gray-600" />
@@ -175,6 +155,24 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <FistbumpFeed fistbumps={recentFistbumps} />
+            </CardContent>
+          </Card>
+
+          {/* Voice Notes - Mobile: order-3, Desktop: bottom-right */}
+          <Card className="shadow-lg border border-gray-300 bg-white order-3 lg:order-4">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center text-gray-800">
+                <Mic className="w-5 h-5 mr-2 text-gray-600" />
+                Voice Notes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <VoiceNote
+                selectedKid={selectedKid}
+                kids={kids}
+                isRecording={isRecording}
+                setIsRecording={setIsRecording}
+              />
             </CardContent>
           </Card>
         </div>
