@@ -24,17 +24,17 @@ interface KidProfileProps {
 
 const KidProfile: React.FC<KidProfileProps> = ({ kid, isSelected, onSelect }) => {
   const getBatteryColor = (battery: number) => {
-    if (battery > 60) return 'text-green-500';
-    if (battery > 30) return 'text-yellow-500';
-    return 'text-red-500';
+    if (battery > 60) return 'text-gray-800';
+    if (battery > 30) return 'text-gray-600';
+    return 'text-gray-400';
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'playing': return 'bg-green-100 text-green-700 border-green-200';
-      case 'walking': return 'bg-blue-100 text-blue-700 border-blue-200';
-      case 'resting': return 'bg-purple-100 text-purple-700 border-purple-200';
-      case 'exploring': return 'bg-orange-100 text-orange-700 border-orange-200';
+      case 'playing': return 'bg-gray-100 text-gray-800 border-gray-300';
+      case 'walking': return 'bg-gray-200 text-gray-800 border-gray-400';
+      case 'resting': return 'bg-gray-50 text-gray-700 border-gray-200';
+      case 'exploring': return 'bg-gray-150 text-gray-800 border-gray-350';
       default: return 'bg-gray-100 text-gray-700 border-gray-200';
     }
   };
@@ -42,15 +42,15 @@ const KidProfile: React.FC<KidProfileProps> = ({ kid, isSelected, onSelect }) =>
   return (
     <Card 
       className={`cursor-pointer transition-all duration-300 hover:scale-105 border-2 ${
-        isSelected ? 'border-purple-400 shadow-lg' : 'border-white/30 hover:border-purple-200'
-      } bg-white/70 backdrop-blur-sm`}
+        isSelected ? 'border-gray-600 shadow-lg' : 'border-gray-200 hover:border-gray-400'
+      } bg-white`}
       onClick={onSelect}
     >
       <CardContent className="p-4">
         <div className="flex items-center space-x-3 mb-3">
           <div 
-            className="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
-            style={{ backgroundColor: `${kid.color}20`, border: `2px solid ${kid.color}` }}
+            className="w-12 h-12 rounded-full flex items-center justify-center text-2xl border-2"
+            style={{ backgroundColor: `${kid.color}20`, borderColor: kid.color }}
           >
             {kid.avatar}
           </div>
@@ -59,7 +59,7 @@ const KidProfile: React.FC<KidProfileProps> = ({ kid, isSelected, onSelect }) =>
             <p className="text-sm text-gray-600">Age {kid.age}</p>
           </div>
           <div 
-            className="w-4 h-4 rounded-full animate-pulse"
+            className="w-4 h-4 rounded-full"
             style={{ backgroundColor: kid.color }}
           />
         </div>

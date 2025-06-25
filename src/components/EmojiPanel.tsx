@@ -53,12 +53,11 @@ const EmojiPanel: React.FC<EmojiPanelProps> = ({ selectedKid, kids }) => {
     <div className="space-y-4">
       {/* Target Selection */}
       {selectedKid ? (
-        <div className="flex items-center space-x-2 p-2 bg-purple-50 rounded-lg border border-purple-200">
+        <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
           <span className="text-sm text-gray-600">Sending to:</span>
           <Badge 
             variant="outline" 
-            className="text-purple-700 border-purple-300"
-            style={{ backgroundColor: `${selectedKidInfo?.color}10` }}
+            className="text-gray-700 border-gray-300 bg-gray-100"
           >
             {selectedKidInfo?.avatar} {selectedKidInfo?.name}
           </Badge>
@@ -76,8 +75,8 @@ const EmojiPanel: React.FC<EmojiPanelProps> = ({ selectedKid, kids }) => {
             key={item.emoji}
             className={`p-3 rounded-lg border-2 transition-all duration-200 hover:scale-110 ${
               selectedEmoji === item.emoji
-                ? 'border-purple-400 bg-purple-100 shadow-md'
-                : 'border-gray-200 hover:border-purple-200 hover:bg-purple-50'
+                ? 'border-gray-600 bg-gray-100 shadow-md'
+                : 'border-gray-200 hover:border-gray-400 hover:bg-gray-50'
             }`}
             onClick={() => setSelectedEmoji(item.emoji)}
             disabled={!selectedKid}
@@ -92,18 +91,18 @@ const EmojiPanel: React.FC<EmojiPanelProps> = ({ selectedKid, kids }) => {
       <Button
         onClick={handleSendEmoji}
         disabled={!selectedEmoji || !selectedKid}
-        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:opacity-50"
+        className="w-full bg-black hover:bg-gray-800 disabled:opacity-50 text-white"
       >
         <Send className="w-4 h-4 mr-2" />
         Send {selectedEmoji}
       </Button>
 
       {/* Recent Messages */}
-      <div className="border-t pt-4">
+      <div className="border-t border-gray-200 pt-4">
         <h4 className="text-sm font-medium text-gray-700 mb-2">Recent Messages</h4>
         <div className="space-y-2">
           {recentMessages.map((msg, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+            <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100">
               <div className="flex items-center space-x-2">
                 <span className="text-lg">{msg.emoji}</span>
                 <span className="text-sm text-gray-600">from {msg.from}</span>

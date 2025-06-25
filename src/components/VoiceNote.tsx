@@ -94,12 +94,11 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
     <div className="space-y-4">
       {/* Target Selection */}
       {selectedKid ? (
-        <div className="flex items-center space-x-2 p-2 bg-blue-50 rounded-lg border border-blue-200">
+        <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
           <span className="text-sm text-gray-600">Recording for:</span>
           <Badge 
             variant="outline" 
-            className="text-blue-700 border-blue-300"
-            style={{ backgroundColor: `${selectedKidInfo?.color}10` }}
+            className="text-gray-700 border-gray-300 bg-gray-100"
           >
             {selectedKidInfo?.avatar} {selectedKidInfo?.name}
           </Badge>
@@ -113,22 +112,22 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
       {/* Recording Interface */}
       <div className="space-y-3">
         {isRecording && (
-          <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+          <div className="text-center p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex items-center justify-center space-x-2 mb-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              <span className="text-red-700 font-medium">Recording...</span>
+              <div className="w-3 h-3 bg-gray-600 rounded-full animate-pulse"></div>
+              <span className="text-gray-700 font-medium">Recording...</span>
             </div>
-            <div className="text-2xl font-mono text-red-600">
+            <div className="text-2xl font-mono text-gray-700">
               {formatTime(recordingTime)}
             </div>
           </div>
         )}
 
         {recordedAudio && !isRecording && (
-          <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-green-700 font-medium">Voice note ready</span>
-              <span className="text-sm text-green-600">{formatTime(recordingTime)}</span>
+              <span className="text-gray-700 font-medium">Voice note ready</span>
+              <span className="text-sm text-gray-600">{formatTime(recordingTime)}</span>
             </div>
             
             <div className="flex items-center space-x-2">
@@ -137,7 +136,7 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
                 variant="outline"
                 onClick={playRecording}
                 disabled={isPlaying}
-                className="flex-1"
+                className="flex-1 border-gray-300 hover:bg-gray-50"
               >
                 {isPlaying ? (
                   <>
@@ -155,7 +154,7 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
               <Button
                 size="sm"
                 onClick={sendVoiceNote}
-                className="flex-1 bg-green-600 hover:bg-green-700"
+                className="flex-1 bg-gray-700 hover:bg-gray-800 text-white"
               >
                 <Send className="w-4 h-4 mr-2" />
                 Send
@@ -170,9 +169,9 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
           disabled={!selectedKid}
           className={`w-full h-16 text-lg ${
             isRecording 
-              ? 'bg-red-500 hover:bg-red-600' 
-              : 'bg-blue-500 hover:bg-blue-600'
-          }`}
+              ? 'bg-gray-700 hover:bg-gray-800' 
+              : 'bg-gray-600 hover:bg-gray-700'
+          } text-white`}
         >
           {isRecording ? (
             <>
@@ -189,15 +188,15 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
       </div>
 
       {/* Recent Voice Notes */}
-      <div className="border-t pt-4">
+      <div className="border-t border-gray-200 pt-4">
         <h4 className="text-sm font-medium text-gray-700 mb-2">Recent Voice Notes</h4>
         <div className="space-y-2">
           {recentVoiceNotes.map((note, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+            <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100">
               <div className="flex items-center space-x-2">
-                <Volume2 className="w-4 h-4 text-blue-500" />
+                <Volume2 className="w-4 h-4 text-gray-600" />
                 <span className="text-sm text-gray-600">from {note.from}</span>
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="text-xs border-gray-300 text-gray-600">
                   {note.duration}
                 </Badge>
               </div>

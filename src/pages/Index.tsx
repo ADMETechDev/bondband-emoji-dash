@@ -19,7 +19,7 @@ const Index = () => {
       id: 1,
       name: "Emma",
       age: 8,
-      color: "#FF6B9D",
+      color: "#666666",
       location: { lat: 40.7128, lng: -74.0060, address: "Central Park, NYC" },
       battery: 85,
       lastSeen: "2 mins ago",
@@ -30,7 +30,7 @@ const Index = () => {
       id: 2,
       name: "Alex",
       age: 10,
-      color: "#4ECDC4",
+      color: "#888888",
       location: { lat: 40.7614, lng: -73.9776, address: "Times Square, NYC" },
       battery: 92,
       lastSeen: "1 min ago",
@@ -41,7 +41,7 @@ const Index = () => {
       id: 3,
       name: "Sophie",
       age: 6,
-      color: "#45B7D1",
+      color: "#444444",
       location: { lat: 40.7505, lng: -73.9934, address: "Bryant Park, NYC" },
       battery: 78,
       lastSeen: "5 mins ago",
@@ -52,7 +52,7 @@ const Index = () => {
       id: 4,
       name: "Jake",
       age: 9,
-      color: "#96CEB4",
+      color: "#777777",
       location: { lat: 40.7589, lng: -73.9851, address: "Rockefeller Center, NYC" },
       battery: 65,
       lastSeen: "3 mins ago",
@@ -67,39 +67,39 @@ const Index = () => {
       kid1: "Emma",
       kid2: "Alex",
       time: "5 mins ago",
-      color1: "#FF6B9D",
-      color2: "#4ECDC4",
-      blendedColor: "#B284B4"
+      color1: "#666666",
+      color2: "#888888",
+      blendedColor: "#777777"
     },
     {
       id: 2,
       kid1: "Sophie",
       kid2: "Jake",
       time: "12 mins ago",
-      color1: "#45B7D1",
-      color2: "#96CEB4",
-      blendedColor: "#6DC7B2"
+      color1: "#444444",
+      color2: "#777777",
+      blendedColor: "#5A5A5A"
     }
   ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-white/20 p-4 sticky top-0 z-50">
+      <header className="bg-white border-b border-gray-200 p-4 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center">
               <Heart className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold text-black">
                 BondBand
               </h1>
               <p className="text-sm text-gray-600">Family Dashboard</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+            <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-300">
               <Users className="w-3 h-3 mr-1" />
               4 Kids Online
             </Badge>
@@ -124,10 +124,10 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map View */}
           <div className="lg:col-span-2">
-            <Card className="h-96 overflow-hidden shadow-lg border-0 bg-white/70 backdrop-blur-sm">
+            <Card className="h-[500px] overflow-hidden shadow-lg border border-gray-300 bg-white">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg">
-                  <MapPin className="w-5 h-5 mr-2 text-blue-600" />
+                <CardTitle className="flex items-center text-lg text-gray-800">
+                  <MapPin className="w-5 h-5 mr-2 text-gray-600" />
                   Live Locations
                 </CardTitle>
               </CardHeader>
@@ -140,9 +140,9 @@ const Index = () => {
           {/* Communication Panel */}
           <div className="space-y-4">
             {/* Emoji Communication */}
-            <Card className="shadow-lg border-0 bg-white/70 backdrop-blur-sm">
+            <Card className="shadow-lg border border-gray-300 bg-white">
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Send Message</CardTitle>
+                <CardTitle className="text-lg text-gray-800">Send Message</CardTitle>
               </CardHeader>
               <CardContent>
                 <EmojiPanel selectedKid={selectedKid} kids={kids} />
@@ -150,10 +150,10 @@ const Index = () => {
             </Card>
 
             {/* Voice Notes */}
-            <Card className="shadow-lg border-0 bg-white/70 backdrop-blur-sm">
+            <Card className="shadow-lg border border-gray-300 bg-white">
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center">
-                  <Mic className="w-5 h-5 mr-2 text-purple-600" />
+                <CardTitle className="text-lg flex items-center text-gray-800">
+                  <Mic className="w-5 h-5 mr-2 text-gray-600" />
                   Voice Notes
                 </CardTitle>
               </CardHeader>
@@ -170,10 +170,10 @@ const Index = () => {
         </div>
 
         {/* Fistbump Activity Feed */}
-        <Card className="shadow-lg border-0 bg-white/70 backdrop-blur-sm">
+        <Card className="shadow-lg border border-gray-300 bg-white">
           <CardHeader>
-            <CardTitle className="flex items-center text-lg">
-              <Zap className="w-5 h-5 mr-2 text-yellow-600" />
+            <CardTitle className="flex items-center text-lg text-gray-800">
+              <Zap className="w-5 h-5 mr-2 text-gray-600" />
               Recent Fistbumps & Color Blends
             </CardTitle>
           </CardHeader>
