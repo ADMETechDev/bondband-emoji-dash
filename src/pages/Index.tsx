@@ -122,8 +122,8 @@ const Index = () => {
 
         {/* Main Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Map View */}
-          <div className="lg:col-span-2">
+          {/* Map View and Fistbump Feed */}
+          <div className="lg:col-span-2 space-y-6">
             <Card className="h-[500px] overflow-hidden shadow-lg border border-gray-300 bg-white">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center text-lg text-gray-800">
@@ -133,6 +133,19 @@ const Index = () => {
               </CardHeader>
               <CardContent className="p-0 h-full">
                 <MapView kids={kids} selectedKid={selectedKid} />
+              </CardContent>
+            </Card>
+
+            {/* Fistbump Activity Feed */}
+            <Card className="shadow-lg border border-gray-300 bg-white">
+              <CardHeader>
+                <CardTitle className="flex items-center text-lg text-gray-800">
+                  <Zap className="w-5 h-5 mr-2 text-gray-600" />
+                  Recent Fistbumps & Color Blends
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <FistbumpFeed fistbumps={recentFistbumps} />
               </CardContent>
             </Card>
           </div>
@@ -169,18 +182,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Fistbump Activity Feed */}
-        <Card className="shadow-lg border border-gray-300 bg-white">
-          <CardHeader>
-            <CardTitle className="flex items-center text-lg text-gray-800">
-              <Zap className="w-5 h-5 mr-2 text-gray-600" />
-              Recent Fistbumps & Color Blends
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FistbumpFeed fistbumps={recentFistbumps} />
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
