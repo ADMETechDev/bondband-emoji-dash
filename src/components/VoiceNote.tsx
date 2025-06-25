@@ -95,11 +95,11 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
       {selectedKid ? (
         <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
           <span className="text-sm text-gray-600">Recording for:</span>
-          <Badge 
-            variant="outline" 
+          <Badge
+            variant="outline"
             className="text-gray-700 border-gray-300 bg-gray-100"
           >
-            {selectedKidInfo?.avatar} {selectedKidInfo?.name}
+            <span className="grayscale inline-block">{selectedKidInfo?.avatar}</span> {selectedKidInfo?.name}
           </Badge>
         </div>
       ) : (
