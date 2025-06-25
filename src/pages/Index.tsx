@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -120,10 +119,10 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Main Dashboard Grid */}
+        {/* Main Dashboard Grid - Desktop: Map + Communication panels side by side */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Map View */}
-          <Card className="h-[500px] overflow-hidden shadow-lg border border-gray-300 bg-white lg:col-span-2 order-1 lg:order-none">
+          {/* Map View - Desktop: spans 2 columns, Mobile: order-1 */}
+          <Card className="h-[500px] overflow-hidden shadow-lg border border-gray-300 bg-white lg:col-span-2 order-1">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center text-lg text-gray-800">
                 <MapPin className="w-5 h-5 mr-2 text-gray-600" />
@@ -135,21 +134,8 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          {/* Fistbump Activity Feed */}
-          <Card className="shadow-lg border border-gray-300 bg-white order-3 lg:order-none lg:col-span-2 lg:col-start-1">
-            <CardHeader>
-              <CardTitle className="flex items-center text-lg text-gray-800">
-                <Zap className="w-5 h-5 mr-2 text-gray-600" />
-                Recent Fistbumps & Color Blends
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <FistbumpFeed fistbumps={recentFistbumps} />
-            </CardContent>
-          </Card>
-
-          {/* Communication Panel */}
-          <div className="space-y-4 order-2 lg:order-none">
+          {/* Communication Panel - Desktop: right of map, Mobile: order-2 */}
+          <div className="space-y-4 order-2">
             {/* Emoji Communication */}
             <Card className="shadow-lg border border-gray-300 bg-white">
               <CardHeader className="pb-3">
@@ -180,6 +166,18 @@ const Index = () => {
           </div>
         </div>
 
+        {/* Fistbump Activity Feed - Desktop: full width below, Mobile: order-3 */}
+        <Card className="shadow-lg border border-gray-300 bg-white order-3">
+          <CardHeader>
+            <CardTitle className="flex items-center text-lg text-gray-800">
+              <Zap className="w-5 h-5 mr-2 text-gray-600" />
+              Recent Fistbumps & Color Blends
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <FistbumpFeed fistbumps={recentFistbumps} />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
