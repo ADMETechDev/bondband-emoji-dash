@@ -119,9 +119,9 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Main Dashboard Grid - Desktop: Map + Communication panels side by side */}
+        {/* Main Dashboard Grid - Mobile: stacked, Desktop: 2x2 grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Map View - Desktop: spans 2 columns, Mobile: order-1 */}
+          {/* Map View - Mobile: order-1, Desktop: top-left spanning 2 cols */}
           <Card className="h-[500px] overflow-hidden shadow-lg border border-gray-300 bg-white lg:col-span-2 order-1">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center text-lg text-gray-800">
@@ -134,8 +134,8 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          {/* Communication Panel - Desktop: right of map, Mobile: order-2 */}
-          <div className="space-y-4 order-2">
+          {/* Communication Panel - Mobile: order-2&3, Desktop: top-right */}
+          <div className="space-y-4 order-2 lg:order-2">
             {/* Emoji Communication */}
             <Card className="shadow-lg border border-gray-300 bg-white">
               <CardHeader className="pb-3">
@@ -164,20 +164,20 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
 
-        {/* Fistbump Activity Feed - Desktop: full width below, Mobile: order-3 */}
-        <Card className="shadow-lg border border-gray-300 bg-white order-3">
-          <CardHeader>
-            <CardTitle className="flex items-center text-lg text-gray-800">
-              <Zap className="w-5 h-5 mr-2 text-gray-600" />
-              Recent Fistbumps & Color Blends
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FistbumpFeed fistbumps={recentFistbumps} />
-          </CardContent>
-        </Card>
+          {/* Fistbump Activity Feed - Mobile: order-4, Desktop: bottom-left spanning 2 cols */}
+          <Card className="shadow-lg border border-gray-300 bg-white order-4 lg:order-3 lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="flex items-center text-lg text-gray-800">
+                <Zap className="w-5 h-5 mr-2 text-gray-600" />
+                Recent Fistbumps & Color Blends
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <FistbumpFeed fistbumps={recentFistbumps} />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
