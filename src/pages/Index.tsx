@@ -135,6 +135,19 @@ const Index = () => {
             </CardContent>
           </Card>
 
+          {/* Fistbump Activity Feed */}
+          <Card className="shadow-lg border border-gray-300 bg-white order-3 lg:order-none lg:col-span-2 lg:col-start-1">
+            <CardHeader>
+              <CardTitle className="flex items-center text-lg text-gray-800">
+                <Zap className="w-5 h-5 mr-2 text-gray-600" />
+                Recent Fistbumps & Color Blends
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <FistbumpFeed fistbumps={recentFistbumps} />
+            </CardContent>
+          </Card>
+
           {/* Communication Panel */}
           <div className="space-y-4 order-2 lg:order-none">
             {/* Emoji Communication */}
@@ -165,19 +178,6 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
-
-          {/* Fistbump Activity Feed */}
-          <Card className="shadow-lg border border-gray-300 bg-white order-3 lg:order-none lg:col-span-2 lg:col-start-1">
-            <CardHeader>
-              <CardTitle className="flex items-center text-lg text-gray-800">
-                <Zap className="w-5 h-5 mr-2 text-gray-600" />
-                Recent Fistbumps & Color Blends
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <FistbumpFeed fistbumps={recentFistbumps} />
-            </CardContent>
-          </Card>
         </div>
 
       </div>
