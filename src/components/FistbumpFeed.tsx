@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
-import { Zap, Palette, Users } from 'lucide-react';
+import { Zap, Palette } from 'lucide-react';
 
 interface Fistbump {
   id: number;
@@ -40,7 +41,7 @@ const FistbumpFeed: React.FC<FistbumpFeedProps> = ({ fistbumps }) => {
 
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-3">
-                <Users className="w-6 h-6 text-gray-600" />
+                <div className="text-2xl">👊</div>
                 <div>
                   <div className="font-semibold text-gray-800">
                     {fistbump.kid1} + {fistbump.kid2}

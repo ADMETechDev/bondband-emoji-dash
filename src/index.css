@@ -99,6 +99,5 @@
 
   body {
     @apply bg-background text-foreground;
-    filter: grayscale(100%);
   }
 }

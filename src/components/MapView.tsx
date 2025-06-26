@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { MapPin, User } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 interface Kid {
   id: number;
@@ -75,14 +76,22 @@ const MapView: React.FC<MapViewProps> = ({ kids, selectedKid }) => {
             }`}
             style={positions[index]}
           >
-            {/* Monochrome Main marker */}
+            {/* Pulse animation */}
             <div 
-              className={`relative w-10 h-10 rounded-full border-3 border-white shadow-lg flex items-center justify-center text-lg bg-white ${
+              className="absolute inset-0 rounded-full animate-ping opacity-50"
+              style={{ backgroundColor: kid.color }}
+            />
+            
+            {/* Main marker */}
+            <div 
+              className={`relative w-10 h-10 rounded-full border-3 border-white shadow-lg flex items-center justify-center text-lg ${
                 isSelected ? 'ring-4 ring-gray-400' : ''
               }`}
+              style={{ backgroundColor: kid.color }}
             >
-              <User className="w-6 h-6 text-gray-700" />
+              {kid.avatar}
             </div>
+
             {/* Name label */}
             <div className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-700 whitespace-nowrap shadow-sm border border-gray-200">
               {kid.name}
