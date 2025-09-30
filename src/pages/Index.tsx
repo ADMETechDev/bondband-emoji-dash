@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,9 +12,18 @@ import FistbumpFeed from '../components/FistbumpFeed';
 import VoiceNote from '../components/VoiceNote';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [selectedKid, setSelectedKid] = useState<number | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
+
+  const handleKidSelect = (kid: any) => {
+    if (kid.isPanic) {
+      navigate(`/emergency/${kid.id}`);
+    } else {
+      setSelectedKid(selectedKid === kid.id ? null : kid.id);
+    }
+  };
   
   const demoKids = [
     {
@@ -25,7 +35,8 @@ const Index = () => {
       battery: 85,
       lastSeen: "2 mins ago",
       status: "playing",
-      avatar: "👧"
+      avatar: "👧",
+      isPanic: false
     },
     {
       id: 2,
@@ -36,7 +47,8 @@ const Index = () => {
       battery: 92,
       lastSeen: "1 min ago",
       status: "walking",
-      avatar: "👦"
+      avatar: "👦",
+      isPanic: true
     },
     {
       id: 3,
@@ -47,7 +59,8 @@ const Index = () => {
       battery: 78,
       lastSeen: "5 mins ago",
       status: "resting",
-      avatar: "👧"
+      avatar: "👧",
+      isPanic: false
     },
     {
       id: 4,
@@ -58,7 +71,8 @@ const Index = () => {
       battery: 65,
       lastSeen: "3 mins ago",
       status: "exploring",
-      avatar: "👦"
+      avatar: "👦",
+      isPanic: false
     }
   ];
 
@@ -146,7 +160,7 @@ const Index = () => {
                 key={kid.id}
                 kid={kid}
                 isSelected={selectedKid === kid.id}
-                onSelect={() => setSelectedKid(selectedKid === kid.id ? null : kid.id)}
+                onSelect={() => handleKidSelect(kid)}
               />
             ))}
           </div>

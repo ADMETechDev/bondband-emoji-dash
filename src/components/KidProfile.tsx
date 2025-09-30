@@ -14,6 +14,7 @@ interface Kid {
   lastSeen: string;
   status: string;
   avatar: string;
+  isPanic?: boolean;
 }
 
 interface KidProfileProps {
@@ -42,15 +43,26 @@ const KidProfile: React.FC<KidProfileProps> = ({ kid, isSelected, onSelect }) =>
   return (
     <Card 
       className={`cursor-pointer transition-all duration-300 hover:scale-105 border-2 ${
-        isSelected ? 'border-gray-600 shadow-lg' : 'border-gray-200 hover:border-gray-400'
+        kid.isPanic 
+          ? 'border-red-600 shadow-lg shadow-red-500/50 animate-pulse' 
+          : isSelected 
+            ? 'border-gray-600 shadow-lg' 
+            : 'border-gray-200 hover:border-gray-400'
       } bg-white`}
       onClick={onSelect}
     >
       <CardContent className="p-4">
+        {kid.isPanic && (
+          <div className="mb-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold text-center animate-pulse">
+            🚨 SOS PANIC ALERT 🚨
+          </div>
+        )}
         <div className="flex items-center space-x-3 mb-3">
           <div 
-            className="w-12 h-12 rounded-full flex items-center justify-center text-2xl border-2"
-            style={{ backgroundColor: `${kid.color}20`, borderColor: kid.color }}
+            className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl border-2 ${
+              kid.isPanic ? 'bg-red-100 border-red-600 animate-pulse' : ''
+            }`}
+            style={!kid.isPanic ? { backgroundColor: `${kid.color}20`, borderColor: kid.color } : {}}
           >
             {kid.avatar}
           </div>

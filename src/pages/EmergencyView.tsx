@@ -1,0 +1,286 @@
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Battery, MapPin, Clock, Navigation, MessageSquare, Mic } from 'lucide-react';
+
+const EmergencyView = () => {
+  const { kidId } = useParams();
+  const navigate = useNavigate();
+
+  // Demo kid data - in production this would come from your data store
+  const kid = {
+    id: 2,
+    name: "Alex",
+    age: 10,
+    color: "#888888",
+    location: { lat: 40.7614, lng: -73.9776, address: "Times Square, NYC" },
+    battery: 92,
+    lastSeen: "1 min ago",
+    status: "PANIC",
+    avatar: "👦",
+    isPanic: true
+  };
+
+  const distanceToKid = "0.8 miles"; // Mock distance
+  const estimatedTime = "12 min walk";
+
+  const recentMessages = [
+    { id: 1, type: 'sent', emoji: '👍', time: '2 mins ago' },
+    { id: 2, type: 'sent', emoji: '❤️', time: '5 mins ago' },
+  ];
+
+  const recentVoiceNotes = [
+    { id: 1, duration: '0:15', time: '3 mins ago' },
+    { id: 2, duration: '0:22', time: '8 mins ago' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-red-50">
+      {/* Emergency Header */}
+      <header className="bg-red-600 text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/')}
+              className="text-white hover:bg-red-700"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Dashboard
+            </Button>
+            <Badge className="bg-white text-red-600 font-bold animate-pulse">
+              🚨 EMERGENCY MODE
+            </Badge>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl">
+              {kid.avatar}
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">{kid.name}'s Emergency Alert</h1>
+              <p className="text-red-100">Last seen: {kid.lastSeen}</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto p-6 space-y-6">
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card className="border-red-200 bg-white">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2">
+                <Navigation className="w-5 h-5 text-red-600" />
+                <div>
+                  <p className="text-sm text-gray-600">Distance</p>
+                  <p className="text-lg font-bold text-gray-800">{distanceToKid}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-red-200 bg-white">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2">
+                <Clock className="w-5 h-5 text-red-600" />
+                <div>
+                  <p className="text-sm text-gray-600">Est. Time</p>
+                  <p className="text-lg font-bold text-gray-800">{estimatedTime}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-red-200 bg-white">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2">
+                <Battery className="w-5 h-5 text-red-600" />
+                <div>
+                  <p className="text-sm text-gray-600">Battery</p>
+                  <p className="text-lg font-bold text-gray-800">{kid.battery}%</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Map and Info Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Emergency Map */}
+          <div className="lg:col-span-2">
+            <Card className="h-[500px] border-red-200 bg-white">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center text-lg text-gray-800">
+                  <MapPin className="w-5 h-5 mr-2 text-red-600" />
+                  Live Location & Directions
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-4 h-full">
+                <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden">
+                  {/* Simulated Map Background */}
+                  <div className="absolute inset-0">
+                    <div className="w-full h-full bg-gradient-to-br from-gray-200 via-gray-100 to-gray-150"></div>
+                    {/* Street grid */}
+                    <div className="absolute inset-0">
+                      {[15, 25, 40, 55, 70, 85].map((pos, i) => (
+                        <div 
+                          key={`h-${i}`}
+                          className="absolute w-full h-1 bg-white"
+                          style={{ top: `${pos}%` }}
+                        />
+                      ))}
+                      {[20, 35, 50, 65, 80].map((pos, i) => (
+                        <div 
+                          key={`v-${i}`}
+                          className="absolute h-full w-1 bg-white"
+                          style={{ left: `${pos}%` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Emergency Marker */}
+                  <div
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 z-20"
+                    style={{ top: '60%', left: '70%' }}
+                  >
+                    <div className="absolute inset-0 rounded-full animate-ping bg-red-600 opacity-75" />
+                    <div className="relative w-16 h-16 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-2xl bg-red-600 animate-pulse">
+                      {kid.avatar}
+                    </div>
+                    <div className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap shadow-lg">
+                      🚨 {kid.name} - SOS
+                    </div>
+                  </div>
+
+                  {/* Your Location */}
+                  <div
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10"
+                    style={{ top: '30%', left: '40%' }}
+                  >
+                    <div className="w-12 h-12 rounded-full border-4 border-blue-600 bg-blue-500 shadow-lg flex items-center justify-center">
+                      <Navigation className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-sm">
+                      You
+                    </div>
+                  </div>
+
+                  {/* Direction Line */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
+                    <line
+                      x1="40%"
+                      y1="30%"
+                      x2="70%"
+                      y2="60%"
+                      stroke="#ef4444"
+                      strokeWidth="3"
+                      strokeDasharray="10,5"
+                      className="animate-pulse"
+                    />
+                  </svg>
+
+                  {/* Get Directions Button */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30">
+                    <Button className="bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg">
+                      <Navigation className="w-4 h-4 mr-2" />
+                      Get Directions
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Communication Panel */}
+          <div className="space-y-4">
+            {/* BondBand Status */}
+            <Card className="border-red-200 bg-white">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg text-gray-800">BondBand Status</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Battery</span>
+                  <div className="flex items-center space-x-2">
+                    <Battery className="w-4 h-4 text-gray-800" />
+                    <span className="font-bold text-gray-800">{kid.battery}%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Last Ping</span>
+                  <span className="font-bold text-gray-800">{kid.lastSeen}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Location</span>
+                  <span className="text-xs text-gray-600">{kid.location.address}</span>
+                </div>
+                <div className="pt-2 border-t border-gray-200">
+                  <Badge className="bg-red-100 text-red-800 border-red-300 w-full justify-center">
+                    Emergency Mode Active
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Messages */}
+            <Card className="border-red-200 bg-white">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center text-gray-800">
+                  <MessageSquare className="w-5 h-5 mr-2 text-gray-600" />
+                  Recent Messages
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {recentMessages.map((msg) => (
+                    <div key={msg.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                      <span className="text-2xl">{msg.emoji}</span>
+                      <span className="text-xs text-gray-500">{msg.time}</span>
+                    </div>
+                  ))}
+                  <Button className="w-full mt-2 bg-gray-800 hover:bg-gray-700">
+                    Send Quick Message
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Voice Notes */}
+            <Card className="border-red-200 bg-white">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center text-gray-800">
+                  <Mic className="w-5 h-5 mr-2 text-gray-600" />
+                  Recent Voice Notes
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {recentVoiceNotes.map((note) => (
+                    <div key={note.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                          <Mic className="w-4 h-4 text-gray-600" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">{note.duration}</span>
+                      </div>
+                      <span className="text-xs text-gray-500">{note.time}</span>
+                    </div>
+                  ))}
+                  <Button className="w-full mt-2 bg-gray-800 hover:bg-gray-700">
+                    Record Voice Note
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EmergencyView;
