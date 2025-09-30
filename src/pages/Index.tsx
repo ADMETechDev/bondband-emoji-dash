@@ -13,8 +13,9 @@ import VoiceNote from '../components/VoiceNote';
 const Index = () => {
   const [selectedKid, setSelectedKid] = useState<number | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
   
-  const kids = [
+  const demoKids = [
     {
       id: 1,
       name: "Emma",
@@ -61,7 +62,7 @@ const Index = () => {
     }
   ];
 
-  const [recentFistbumps, setRecentFistbumps] = useState([
+  const demoFistbumps = [
     {
       id: 1,
       kid1: "Emma",
@@ -80,7 +81,10 @@ const Index = () => {
       color2: "#777777",
       blendedColor: "#5A5A5A"
     }
-  ]);
+  ];
+
+  const kids = isDemoMode ? demoKids : [];
+  const recentFistbumps = isDemoMode ? demoFistbumps : [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -101,26 +105,57 @@ const Index = () => {
           <div className="flex items-center space-x-2">
             <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-300">
               <Users className="w-3 h-3 mr-1" />
-              4 Kids Online
+              {kids.length} {kids.length === 1 ? 'Kid' : 'Kids'} Online
             </Badge>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsDemoMode(!isDemoMode)}
+              className="border-gray-300 hover:bg-gray-50"
+            >
+              {isDemoMode ? 'Exit Demo' : 'Demo Mode'}
+            </Button>
           </div>
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto p-6 space-y-6">
         {/* Kids Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {kids.map((kid) => (
-            <KidProfile
-              key={kid.id}
-              kid={kid}
-              isSelected={selectedKid === kid.id}
-              onSelect={() => setSelectedKid(selectedKid === kid.id ? null : kid.id)}
-            />
-          ))}
-        </div>
+        {kids.length === 0 ? (
+          <Card className="shadow-lg border border-gray-300 bg-white">
+            <CardContent className="p-12 text-center">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-10 h-10 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">No Devices Connected</h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                Your BondBand devices will appear here once they're activated and connected to the app.
+              </p>
+              <Button
+                onClick={() => setIsDemoMode(true)}
+                className="bg-black hover:bg-gray-800 text-white"
+              >
+                Try Demo Mode
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {kids.map((kid) => (
+              <KidProfile
+                key={kid.id}
+                kid={kid}
+                isSelected={selectedKid === kid.id}
+                onSelect={() => setSelectedKid(selectedKid === kid.id ? null : kid.id)}
+              />
+            ))}
+          </div>
+        )}
+
 
         {/* Main Dashboard Grid */}
+        {kids.length > 0 && (
+        <>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map View */}
           <div className="lg:col-span-2">
@@ -181,6 +216,8 @@ const Index = () => {
             <FistbumpFeed fistbumps={recentFistbumps} />
           </CardContent>
         </Card>
+        </>
+        )}
       </div>
     </div>
   );

@@ -27,10 +27,11 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
   const [recordedAudio, setRecordedAudio] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
-  const [recentVoiceNotes, setRecentVoiceNotes] = useState([
+  const demoVoiceNotes = [
     { from: "Sophie", duration: "0:15", time: "10m ago" },
     { from: "Jake", duration: "0:08", time: "15m ago" },
-  ]);
+  ];
+  const recentVoiceNotes = kids.length > 0 ? demoVoiceNotes : [];
 
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const selectedKidInfo = kids.find(k => k.id === selectedKid);
@@ -191,18 +192,24 @@ const VoiceNote: React.FC<VoiceNoteProps> = ({
       <div className="border-t border-gray-200 pt-4">
         <h4 className="text-sm font-medium text-gray-700 mb-2">Recent Voice Notes</h4>
         <div className="space-y-2">
-          {recentVoiceNotes.map((note, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100">
-              <div className="flex items-center space-x-2">
-                <Volume2 className="w-4 h-4 text-gray-600" />
-                <span className="text-sm text-gray-600">from {note.from}</span>
-                <Badge variant="outline" className="text-xs border-gray-300 text-gray-600">
-                  {note.duration}
-                </Badge>
-              </div>
-              <span className="text-xs text-gray-400">{note.time}</span>
+          {recentVoiceNotes.length === 0 ? (
+            <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-100">
+              <p className="text-sm text-gray-500">No voice notes yet</p>
             </div>
-          ))}
+          ) : (
+            recentVoiceNotes.map((note, index) => (
+              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100">
+                <div className="flex items-center space-x-2">
+                  <Volume2 className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm text-gray-600">from {note.from}</span>
+                  <Badge variant="outline" className="text-xs border-gray-300 text-gray-600">
+                    {note.duration}
+                  </Badge>
+                </div>
+                <span className="text-xs text-gray-400">{note.time}</span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

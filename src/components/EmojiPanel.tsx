@@ -18,10 +18,11 @@ interface EmojiPanelProps {
 
 const EmojiPanel: React.FC<EmojiPanelProps> = ({ selectedKid, kids }) => {
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
-  const [recentMessages, setRecentMessages] = useState([
+  const demoMessages = [
     { from: "Emma", emoji: "❤️", time: "2m ago" },
     { from: "Alex", emoji: "🎮", time: "5m ago" },
-  ]);
+  ];
+  const recentMessages = kids.length > 0 ? demoMessages : [];
 
   const emojis = [
     { emoji: "❤️", label: "Love" },
@@ -101,15 +102,21 @@ const EmojiPanel: React.FC<EmojiPanelProps> = ({ selectedKid, kids }) => {
       <div className="border-t border-gray-200 pt-4">
         <h4 className="text-sm font-medium text-gray-700 mb-2">Recent Messages</h4>
         <div className="space-y-2">
-          {recentMessages.map((msg, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100">
-              <div className="flex items-center space-x-2">
-                <span className="text-lg">{msg.emoji}</span>
-                <span className="text-sm text-gray-600">from {msg.from}</span>
-              </div>
-              <span className="text-xs text-gray-400">{msg.time}</span>
+          {recentMessages.length === 0 ? (
+            <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-100">
+              <p className="text-sm text-gray-500">No messages yet</p>
             </div>
-          ))}
+          ) : (
+            recentMessages.map((msg, index) => (
+              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100">
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">{msg.emoji}</span>
+                  <span className="text-sm text-gray-600">from {msg.from}</span>
+                </div>
+                <span className="text-xs text-gray-400">{msg.time}</span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

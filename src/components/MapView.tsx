@@ -16,6 +16,18 @@ interface MapViewProps {
 }
 
 const MapView: React.FC<MapViewProps> = ({ kids, selectedKid }) => {
+  if (kids.length === 0) {
+    return (
+      <div className="relative w-full h-full bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center">
+        <div className="text-center p-8">
+          <MapPin className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500 font-medium">No Devices to Track</p>
+          <p className="text-sm text-gray-400 mt-2">Device locations will appear here</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden">
       {/* Simulated Map Background */}
