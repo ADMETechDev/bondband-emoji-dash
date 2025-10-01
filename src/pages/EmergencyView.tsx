@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Battery, MapPin, Clock, Navigation, MessageSquare, Mic } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { ArrowLeft, Battery, MapPin, Clock, Navigation, MessageSquare, Mic, Circle } from 'lucide-react';
+import { toast } from "sonner";
 
 const EmergencyView = () => {
   const { kidId } = useParams();
   const navigate = useNavigate();
+  const [isEmojiDialogOpen, setIsEmojiDialogOpen] = useState(false);
+  const [isVoiceDialogOpen, setIsVoiceDialogOpen] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
 
   // Demo kid data - in production this would come from your data store
   const kid = {
@@ -35,6 +41,35 @@ const EmergencyView = () => {
     { id: 1, duration: '0:15', time: '3 mins ago' },
     { id: 2, duration: '0:22', time: '8 mins ago' },
   ];
+
+  const quickEmojis = ['👍', '❤️', '🏃', '📍', '🚨', '✅', '👋', '🙏', '💪', '🏠', '🚗', '⚠️'];
+
+  const handleSendEmoji = (emoji: string) => {
+    toast.success(`Sent ${emoji} to ${kid.name}`);
+    setIsEmojiDialogOpen(false);
+  };
+
+  const handleStartRecording = () => {
+    setIsRecording(true);
+    setRecordingTime(0);
+    const interval = setInterval(() => {
+      setRecordingTime(prev => {
+        if (prev >= 30) {
+          clearInterval(interval);
+          handleStopRecording();
+          return 30;
+        }
+        return prev + 1;
+      });
+    }, 1000);
+  };
+
+  const handleStopRecording = () => {
+    setIsRecording(false);
+    toast.success(`Voice note sent to ${kid.name}`);
+    setIsVoiceDialogOpen(false);
+    setRecordingTime(0);
+  };
 
   return (
     <div className="min-h-screen bg-red-50">
@@ -242,7 +277,10 @@ const EmergencyView = () => {
                       <span className="text-xs text-gray-500">{msg.time}</span>
                     </div>
                   ))}
-                  <Button className="w-full mt-2 bg-gray-800 hover:bg-gray-700">
+                  <Button 
+                    className="w-full mt-2 bg-gray-800 hover:bg-gray-700"
+                    onClick={() => setIsEmojiDialogOpen(true)}
+                  >
                     Send Quick Message
                   </Button>
                 </div>
@@ -270,7 +308,10 @@ const EmergencyView = () => {
                       <span className="text-xs text-gray-500">{note.time}</span>
                     </div>
                   ))}
-                  <Button className="w-full mt-2 bg-gray-800 hover:bg-gray-700">
+                  <Button 
+                    className="w-full mt-2 bg-gray-800 hover:bg-gray-700"
+                    onClick={() => setIsVoiceDialogOpen(true)}
+                  >
                     Record Voice Note
                   </Button>
                 </div>
@@ -279,6 +320,65 @@ const EmergencyView = () => {
           </div>
         </div>
       </div>
+
+      {/* Quick Message Dialog */}
+      <Dialog open={isEmojiDialogOpen} onOpenChange={setIsEmojiDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Send Quick Message to {kid.name}</DialogTitle>
+            <DialogDescription>
+              Send a quick emoji message to let them know you're coming
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-4 gap-3 p-4">
+            {quickEmojis.map((emoji, index) => (
+              <button
+                key={index}
+                onClick={() => handleSendEmoji(emoji)}
+                className="text-4xl p-4 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                {emoji}
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Voice Note Dialog */}
+      <Dialog open={isVoiceDialogOpen} onOpenChange={setIsVoiceDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Record Voice Note for {kid.name}</DialogTitle>
+            <DialogDescription>
+              {isRecording ? 'Recording...' : 'Tap the button to start recording (max 30s)'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center space-y-6 p-6">
+            <button
+              onClick={isRecording ? handleStopRecording : handleStartRecording}
+              className={`w-24 h-24 rounded-full flex items-center justify-center transition-all ${
+                isRecording 
+                  ? 'bg-red-600 hover:bg-red-700 animate-pulse' 
+                  : 'bg-gray-800 hover:bg-gray-700'
+              }`}
+            >
+              {isRecording ? (
+                <Circle className="w-8 h-8 text-white fill-white" />
+              ) : (
+                <Mic className="w-8 h-8 text-white" />
+              )}
+            </button>
+            {isRecording && (
+              <div className="text-2xl font-bold text-gray-800">
+                0:{recordingTime.toString().padStart(2, '0')}
+              </div>
+            )}
+            <p className="text-sm text-gray-600">
+              {isRecording ? 'Tap to stop and send' : 'Tap to start recording'}
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
