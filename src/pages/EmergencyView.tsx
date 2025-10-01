@@ -14,6 +14,15 @@ const EmergencyView = () => {
   const [isVoiceDialogOpen, setIsVoiceDialogOpen] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
+  const [chatMessages, setChatMessages] = useState([
+    { id: 1, type: 'received', content: '👋', time: '10 mins ago', isEmoji: true },
+    { id: 2, type: 'sent', content: '❤️', time: '8 mins ago', isEmoji: true },
+    { id: 3, type: 'received', content: '🏃', time: '7 mins ago', isEmoji: true },
+    { id: 4, type: 'sent', content: '👍', time: '5 mins ago', isEmoji: true },
+    { id: 5, type: 'sent', content: '📍', time: '3 mins ago', isEmoji: true },
+    { id: 6, type: 'received', content: '🚨', time: '2 mins ago', isEmoji: true },
+    { id: 7, type: 'sent', content: '❤️', time: '1 min ago', isEmoji: true },
+  ]);
 
   // Demo kid data - in production this would come from your data store
   const kid = {
@@ -32,11 +41,6 @@ const EmergencyView = () => {
   const distanceToKid = "0.8 miles"; // Mock distance
   const estimatedTime = "12 min walk";
 
-  const recentMessages = [
-    { id: 1, type: 'sent', emoji: '👍', time: '2 mins ago' },
-    { id: 2, type: 'sent', emoji: '❤️', time: '5 mins ago' },
-  ];
-
   const recentVoiceNotes = [
     { id: 1, duration: '0:15', time: '3 mins ago' },
     { id: 2, duration: '0:22', time: '8 mins ago' },
@@ -45,6 +49,14 @@ const EmergencyView = () => {
   const quickEmojis = ['👍', '❤️', '🏃', '📍', '🚨', '✅', '👋', '🙏', '💪', '🏠', '🚗', '⚠️'];
 
   const handleSendEmoji = (emoji: string) => {
+    const newMessage = {
+      id: Date.now(),
+      type: 'sent' as const,
+      content: emoji,
+      time: 'Just now',
+      isEmoji: true
+    };
+    setChatMessages(prev => [...prev, newMessage]);
     toast.success(`Sent ${emoji} to ${kid.name}`);
     setIsEmojiDialogOpen(false);
   };
@@ -261,26 +273,53 @@ const EmergencyView = () => {
               </CardContent>
             </Card>
 
-            {/* Recent Messages */}
+            {/* Chat Messages */}
             <Card className="border-red-200 bg-white">
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center text-gray-800">
-                  <MessageSquare className="w-5 h-5 mr-2 text-gray-600" />
-                  Recent Messages
+                <CardTitle className="text-lg flex items-center justify-between text-gray-800">
+                  <div className="flex items-center">
+                    <MessageSquare className="w-5 h-5 mr-2 text-gray-600" />
+                    Chat with {kid.name}
+                  </div>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  {recentMessages.map((msg) => (
-                    <div key={msg.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                      <span className="text-2xl">{msg.emoji}</span>
-                      <span className="text-xs text-gray-500">{msg.time}</span>
-                    </div>
-                  ))}
+                <div className="flex flex-col h-[280px]">
+                  {/* Messages Container */}
+                  <div className="flex-1 overflow-y-auto space-y-2 mb-3 px-1">
+                    {chatMessages.map((msg) => (
+                      <div
+                        key={msg.id}
+                        className={`flex ${msg.type === 'sent' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[70%] rounded-lg px-3 py-2 ${
+                            msg.type === 'sent'
+                              ? 'bg-gray-800 text-white'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}
+                        >
+                          <div className={msg.isEmoji ? 'text-3xl' : 'text-sm'}>
+                            {msg.content}
+                          </div>
+                          <div
+                            className={`text-xs mt-1 ${
+                              msg.type === 'sent' ? 'text-gray-300' : 'text-gray-500'
+                            }`}
+                          >
+                            {msg.time}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Send Button */}
                   <Button 
-                    className="w-full mt-2 bg-gray-800 hover:bg-gray-700"
+                    className="w-full bg-gray-800 hover:bg-gray-700"
                     onClick={() => setIsEmojiDialogOpen(true)}
                   >
+                    <MessageSquare className="w-4 h-4 mr-2" />
                     Send Quick Message
                   </Button>
                 </div>
