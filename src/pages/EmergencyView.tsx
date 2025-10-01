@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { ArrowLeft, Battery, MapPin, Clock, Navigation, MessageSquare, Mic, Circle } from 'lucide-react';
-import { toast } from "sonner";
+import { ArrowLeft, Battery, MapPin, Clock, Navigation, MessageSquare, Mic, Circle, Volume2 } from 'lucide-react';
+import { toast } from "@/hooks/use-toast";
 
 const EmergencyView = () => {
   const { kidId } = useParams();
@@ -22,6 +22,10 @@ const EmergencyView = () => {
     { id: 5, type: 'sent', content: '📍', time: '3 mins ago', isEmoji: true },
     { id: 6, type: 'received', content: '🚨', time: '2 mins ago', isEmoji: true },
     { id: 7, type: 'sent', content: '❤️', time: '1 min ago', isEmoji: true },
+  ]);
+  const [voiceMessages, setVoiceMessages] = useState([
+    { id: 1, type: 'received', duration: '0:15', time: '3 mins ago' },
+    { id: 2, type: 'sent', duration: '0:22', time: '1 min ago' },
   ]);
 
   // Demo kid data - in production this would come from your data store
@@ -57,8 +61,12 @@ const EmergencyView = () => {
       isEmoji: true
     };
     setChatMessages(prev => [...prev, newMessage]);
-    toast.success(`Sent ${emoji} to ${kid.name}`);
+    toast({ title: `Sent ${emoji} to ${kid.name}` });
     setIsEmojiDialogOpen(false);
+  };
+
+  const handleShareLocation = () => {
+    toast({ title: `Shared your location with ${kid.name}` });
   };
 
   const handleStartRecording = () => {
@@ -78,7 +86,14 @@ const EmergencyView = () => {
 
   const handleStopRecording = () => {
     setIsRecording(false);
-    toast.success(`Voice note sent to ${kid.name}`);
+    const newVoiceMessage = {
+      id: Date.now(),
+      type: 'sent' as const,
+      duration: `0:${recordingTime.toString().padStart(2, '0')}`,
+      time: 'Just now'
+    };
+    setVoiceMessages(prev => [...prev, newVoiceMessage]);
+    toast({ title: `Voice note sent to ${kid.name}` });
     setIsVoiceDialogOpen(false);
     setRecordingTime(0);
   };
@@ -230,11 +245,17 @@ const EmergencyView = () => {
                     />
                   </svg>
 
-                  {/* Get Directions Button */}
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30">
+                  {/* Action Buttons */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30 flex gap-2">
                     <Button className="bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg">
                       <Navigation className="w-4 h-4 mr-2" />
                       Get Directions
+                    </Button>
+                    <Button 
+                      onClick={handleShareLocation}
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg"
+                    >
+                      <MapPin className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
@@ -326,31 +347,52 @@ const EmergencyView = () => {
               </CardContent>
             </Card>
 
-            {/* Recent Voice Notes */}
+            {/* Voice Notes */}
             <Card className="border-red-200 bg-white">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg flex items-center text-gray-800">
                   <Mic className="w-5 h-5 mr-2 text-gray-600" />
-                  Recent Voice Notes
+                  Voice Notes
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  {recentVoiceNotes.map((note) => (
-                    <div key={note.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                          <Mic className="w-4 h-4 text-gray-600" />
+                <div className="flex flex-col h-[280px]">
+                  {/* Voice Messages Container */}
+                  <div className="flex-1 overflow-y-auto space-y-2 mb-3 px-1">
+                    {voiceMessages.map((msg) => (
+                      <div
+                        key={msg.id}
+                        className={`flex ${msg.type === 'sent' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[70%] rounded-lg px-3 py-2 ${
+                            msg.type === 'sent'
+                              ? 'bg-gray-800 text-white'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <Volume2 className={`w-4 h-4 ${msg.type === 'sent' ? 'text-white' : 'text-gray-600'}`} />
+                            <span className="text-sm font-medium">{msg.duration}</span>
+                          </div>
+                          <div
+                            className={`text-xs mt-1 ${
+                              msg.type === 'sent' ? 'text-gray-300' : 'text-gray-500'
+                            }`}
+                          >
+                            {msg.time}
+                          </div>
                         </div>
-                        <span className="text-sm font-medium text-gray-700">{note.duration}</span>
                       </div>
-                      <span className="text-xs text-gray-500">{note.time}</span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  
+                  {/* Record Button */}
                   <Button 
-                    className="w-full mt-2 bg-gray-800 hover:bg-gray-700"
+                    className="w-full bg-gray-800 hover:bg-gray-700"
                     onClick={() => setIsVoiceDialogOpen(true)}
                   >
+                    <Mic className="w-4 h-4 mr-2" />
                     Record Voice Note
                   </Button>
                 </div>
